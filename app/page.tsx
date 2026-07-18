@@ -2,12 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Terminal, Shield, Activity, Cpu, ArrowUpRight, Radio, Database, Zap, Layers, Send, HelpCircle, Box, Server } from 'lucide-react';
+import { Terminal, Shield, Activity, Cpu, ArrowUpRight, Radio, Database, Zap, Layers, Send, HelpCircle, Box, Server, Infinity, Code2, Sparkles, Wind } from 'lucide-react';
 
 export default function Home() {
   const [logText, setLogText] = useState('');
   
-  // 🔮 लाइव टर्मिनल लॉग्स जो स्क्रीन पर अपने आप टाइप होंगे
   const logs = [
     'INIT CORE SECURE PROTOCOL...',
     'CONNECTING TO SHIVAM RAJPOOT MAIN PASSWAY...',
@@ -125,7 +124,7 @@ export default function Home() {
           </motion.p>
         </div>
 
-        {/* 💻 ⚡ 1. SYSTEM CORE LOGS (लाइव टर्मिनल नोड) */}
+        {/* SYSTEM CORE LOGS */}
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -204,6 +203,46 @@ export default function Home() {
               </motion.div>
             );
           })}
+        </motion.div>
+
+        {/* ⚡ 3. DYNAMIC TECH STACK NODE (नया 3D स्पिनिंग आइकॉन्स सेक्शन) */}
+        <motion.div
+          initial={{ y: 40, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="w-full max-w-4xl text-left pt-12 space-y-6"
+        >
+          <div className="flex flex-col space-y-2 border-l-2 border-[#7000ff] pl-4">
+            <h2 className="text-2xl font-black text-white tracking-tighter uppercase">Mainframe Tech Stack</h2>
+            <p className="text-xs text-slate-400 font-sans">इस हाई-परफॉर्मेंस सिस्टम को पावर देने वाले कोर इंजनों की 3D एनिमेटेड मैट्रिक्स ग्रिड।</p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
+            {[
+              { name: "Next.js 15", tech: "Framework Engine", icon: Infinity },
+              { name: "React 19", tech: "UI Architecture", icon: Code2 },
+              { name: "Tailwind CSS", tech: "Neon Visual Styling", icon: Wind },
+              { name: "Framer Motion", tech: "3D Animation Matrix", icon: Sparkles }
+            ].map((stack, idx) => {
+              const StackIcon = stack.icon;
+              return (
+                <div key={idx} className="p-4 border border-[#02333d]/40 bg-black/40 rounded-xl flex items-center gap-3 group cursor-pointer hover:border-[#00f0ff]/50 hover:bg-black/80 transition-all duration-300">
+                  <motion.div 
+                    whileHover={{ rotateY: 360, scale: 1.1 }}
+                    transition={{ duration: 0.6, ease: "easeInOut" }}
+                    className="p-2.5 rounded-lg bg-[#7000ff]/10 border border-[#7000ff]/30 text-[#00f0ff] group-hover:border-[#00f0ff]/50 group-hover:bg-[#00f0ff]/10 shrink-0"
+                  >
+                    <StackIcon className="w-5 h-5" />
+                  </motion.div>
+                  <div>
+                    <h5 className="text-white text-xs font-bold tracking-tight group-hover:text-[#00f0ff] transition-colors">{stack.name}</h5>
+                    <p className="text-[10px] text-slate-500 font-sans mt-0.5">{stack.tech}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </motion.div>
 
         {/* THE ACTIVE MAINFRAME PROJECTS SHOP */}
@@ -303,7 +342,7 @@ export default function Home() {
           </form>
         </motion.div>
 
-        {/* लाइव सिस्टम मेट्रिक्स */}
+        {/* लाइव系统 मेट्रिक्स */}
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
