@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Terminal, Shield, Activity, Cpu, ArrowUpRight, Radio, Database, Zap, Layers, Send, HelpCircle, Box, Server, Infinity, Code2, Sparkles, Wind } from 'lucide-react';
+import { Terminal, Shield, Activity, Cpu, ArrowUpRight, Radio, Database, Zap, Layers, Send, HelpCircle, Box, Server } from 'lucide-react';
 
 export default function Home() {
   const [logText, setLogText] = useState('');
@@ -205,7 +205,7 @@ export default function Home() {
           })}
         </motion.div>
 
-        {/* ⚡ 3. DYNAMIC TECH STACK NODE (नया 3D स्पिनिंग आइकॉन्स सेक्शन) */}
+        {/* ⚡ 3. DYNAMIC TECH STACK NODE (100% गारंटेड विज़िबल 3D स्पिनिंग आइकॉन्स) */}
         <motion.div
           initial={{ y: 40, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
@@ -218,22 +218,38 @@ export default function Home() {
             <p className="text-xs text-slate-400 font-sans">इस हाई-परफॉर्मेंस सिस्टम को पावर देने वाले कोर इंजनों की 3D एनिमेटेड मैट्रिक्स ग्रिड।</p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full [perspective:1000px]">
             {[
-              { name: "Next.js 15", tech: "Framework Engine", icon: Infinity },
-              { name: "React 19", tech: "UI Architecture", icon: Code2 },
-              { name: "Tailwind CSS", tech: "Neon Visual Styling", icon: Wind },
-              { name: "Framer Motion", tech: "3D Animation Matrix", icon: Sparkles }
+              { 
+                name: "Next.js 15", 
+                tech: "Framework Engine", 
+                svg: <svg className="w-5 h-5" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M127.3 127.3L67.8 52.2H52.2V127.8H66.1V69.7L118.6 135.9C121.7 133.3 124.6 130.4 127.3 127.3Z" fill="currentColor"/><path d="M116.1 52.2V107.8L129.4 124.7V52.2H116.1Z" fill="currentColor"/><circle cx="90" cy="90" r="85" stroke="currentColor" strokeWidth="10"/></svg>
+              },
+              { 
+                name: "React 19", 
+                tech: "UI Architecture", 
+                svg: <svg className="w-5 h-5" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="50" rx="10" ry="25" stroke="currentColor" strokeWidth="5" transform="rotate(30 50 50)"/><ellipse cx="50" cy="50" rx="10" ry="25" stroke="currentColor" strokeWidth="5" transform="rotate(90 50 50)"/><ellipse cx="50" cy="50" rx="10" ry="25" stroke="currentColor" strokeWidth="5" transform="rotate(150 50 50)"/><circle cx="50" cy="50" r="5" fill="currentColor"/></svg>
+              },
+              { 
+                name: "Tailwind CSS", 
+                tech: "Neon Visual Styling", 
+                svg: <svg className="w-5 h-5" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M25 50C25 35 40 30 50 40C60 50 65 55 75 50C85 45 85 60 75 65C65 70 60 65 50 55C40 45 25 40 25 50Z" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              },
+              { 
+                name: "Framer Motion", 
+                tech: "3D Animation Matrix", 
+                svg: <svg className="w-5 h-5" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 20L50 50L80 20H20Z" fill="currentColor"/><path d="M20 50L50 80L80 50H20Z" fill="currentColor"/><path d="M20 80H80L50 50L20 80Z" fill="currentColor"/></svg>
+              }
             ].map((stack, idx) => {
-              const StackIcon = stack.icon;
               return (
                 <div key={idx} className="p-4 border border-[#02333d]/40 bg-black/40 rounded-xl flex items-center gap-3 group cursor-pointer hover:border-[#00f0ff]/50 hover:bg-black/80 transition-all duration-300">
                   <motion.div 
-                    whileHover={{ rotateY: 360, scale: 1.1 }}
-                    transition={{ duration: 0.6, ease: "easeInOut" }}
-                    className="p-2.5 rounded-lg bg-[#7000ff]/10 border border-[#7000ff]/30 text-[#00f0ff] group-hover:border-[#00f0ff]/50 group-hover:bg-[#00f0ff]/10 shrink-0"
+                    whileHover={{ rotateY: 360, scale: 1.15 }}
+                    transition={{ duration: 0.8, ease: "easeInOut" }}
+                    style={{ transformStyle: "preserve-3d" }}
+                    className="p-2.5 rounded-lg bg-[#7000ff]/10 border border-[#7000ff]/30 text-[#00f0ff] group-hover:border-[#00f0ff]/50 group-hover:bg-[#00f0ff]/10 shrink-0 flex items-center justify-center"
                   >
-                    <StackIcon className="w-5 h-5" />
+                    {stack.svg}
                   </motion.div>
                   <div>
                     <h5 className="text-white text-xs font-bold tracking-tight group-hover:text-[#00f0ff] transition-colors">{stack.name}</h5>
@@ -342,7 +358,7 @@ export default function Home() {
           </form>
         </motion.div>
 
-        {/* लाइव系统 मेट्रिक्स */}
+        {/* लाइव सिस्टम मेट्रिक्स */}
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
