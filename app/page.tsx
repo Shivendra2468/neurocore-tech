@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Terminal, Shield, Activity, Cpu, ArrowUpRight, Radio, Database, Zap, Layers, Send, HelpCircle } from 'lucide-react';
+import { Terminal, Shield, Activity, Cpu, ArrowUpRight, Radio, Database, Zap, Layers, Send, HelpCircle, Box, Server, Eye } from 'lucide-react';
 
 export default function Home() {
   const containerVariants = {
@@ -45,7 +45,7 @@ export default function Home() {
         </div>
 
         <nav className="hidden md:flex items-center gap-8 text-xs tracking-widest text-slate-400">
-          {['MAINFRAME', 'AI CORE', 'SYSTEMS', 'TERMINAL'].map((item, idx) => (
+          {['MAINFRAME', 'AI CORE', 'PROJECTS', 'TERMINAL'].map((item, idx) => (
             <a key={idx} href="#" className="hover:text-[#00f0ff] transition-colors duration-200 relative group py-1">
               {item}
               <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-[#00f0ff] group-hover:w-full transition-all duration-300" />
@@ -113,7 +113,7 @@ export default function Home() {
           </button>
         </motion.div>
 
-        {/* ⚡ THE MILLION DOLLAR FEATURES NODE GRID */}
+        {/* THE MILLION DOLLAR FEATURES NODE GRID */}
         <motion.div 
           variants={containerVariants}
           initial="hidden"
@@ -165,7 +165,53 @@ export default function Home() {
           })}
         </motion.div>
 
-        {/* ⚡ 4. THE SOVEREIGN QUERY HUB (नया कड़क इनपुट टर्मिनल सेक्शन) */}
+        {/* ⚡ 5. THE ACTIVE MAINFRAME PROJECTS SHOP (नया वीआईपी ३डी एनिमेटेड सेक्शन) */}
+        <motion.div
+          initial={{ y: 40, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="w-full max-w-4xl text-left pt-12 space-y-6"
+        >
+          <div className="flex flex-col space-y-2 border-l-2 border-[#00f0ff] pl-4">
+            <h2 className="text-2xl font-black text-white tracking-tighter uppercase">Active Deep-Tech Projects</h2>
+            <p className="text-xs text-slate-400 font-sans">लाइव सर्वर कर्नल पर चल रहे हमारे सबसे एडवांस हाई-एंड सिस्टम्स का रियल-टाइम प्रोग्रेस डेटा।</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+            {[
+              { name: "Project CyberShield V2", progress: "94%", desc: "Autonomous firewall intercepting rogue data packets globally.", icon: Server, color: "from-[#00f0ff] to-[#7000ff]" },
+              { name: "Hyperion UI Mainframe", progress: "87%", desc: "Elite glassmorphic designs executing with pure GPU acceleration.", icon: Box, color: "from-[#ff007b] to-[#00f0ff]" }
+            ].map((proj, i) => {
+              const ProjIcon = proj.icon;
+              return (
+                <div key={i} className="p-6 border border-[#02333d]/40 bg-black/50 backdrop-blur-md rounded-xl space-y-4 group hover:border-[#00f0ff]/30 transition-all duration-300">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <ProjIcon className="w-5 h-5 text-[#7000ff] group-hover:text-[#00f0ff] transition-colors" />
+                      <h4 className="text-white font-bold text-sm">{proj.name}</h4>
+                    </div>
+                    <span className="text-xs font-mono text-[#00f0ff] font-bold bg-[#00f0ff]/5 px-2 py-0.5 rounded border border-[#00f0ff]/20">{proj.progress}</span>
+                  </div>
+                  <p className="text-xs text-slate-400 font-sans leading-relaxed">{proj.desc}</p>
+                  
+                  {/* एनिमेटेड प्रोग्रेस बार */}
+                  <div className="w-full h-1.5 bg-black rounded-full overflow-hidden border border-[#02333d]">
+                    <motion.div 
+                      initial={{ width: 0 }}
+                      whileInView={{ width: proj.progress }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1.5, ease: "easeInOut" }}
+                      className={`h-full bg-gradient-to-r ${proj.color} rounded-full`}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </motion.div>
+
+        {/* THE SOVEREIGN QUERY HUB */}
         <motion.div 
           initial={{ y: 40, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
