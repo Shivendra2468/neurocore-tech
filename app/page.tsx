@@ -2,10 +2,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Terminal, Shield, Activity, Cpu, ArrowUpRight, Radio, Database, Zap, Layers, Send, HelpCircle, Box, Server } from 'lucide-react';
+import { Terminal, Shield, Activity, Cpu, ArrowUpRight, Radio, Database, Zap, Layers, Send, HelpCircle, Box, Server, Battery, Wifi, WifiOff } from 'lucide-react';
 
 export default function Home() {
   const [logText, setLogText] = useState('');
+  const [batteryLevel, setBatteryLevel] = useState('---%');
+  const [isOnline, setIsOnline] = useState(true);
   
   const logs = [
     'INIT CORE SECURE PROTOCOL...',
@@ -16,6 +18,7 @@ export default function Home() {
   ];
 
   useEffect(() => {
+    // 🔮 1. लाइव टर्मिनल लॉग्स टाइपिंग इफ़ेक्ट
     let currentLogIndex = 0;
     let currentCharIndex = 0;
     let currentDisplay = '';
@@ -26,19 +29,41 @@ export default function Home() {
           currentDisplay += logs[currentLogIndex][currentCharIndex];
           setLogText(currentDisplay + '_');
           currentCharIndex++;
-          setTimeout(typeLogs, 30);
+          setTimeout(typeLogs, 25);
         } else {
           currentDisplay += '\n';
           currentLogIndex++;
           currentCharIndex = 0;
-          setTimeout(typeLogs, 500);
+          setTimeout(typeLogs, 400);
         }
       } else {
         setLogText(currentDisplay + ' ✓ TERMINAL READY.');
       }
     };
-
     typeLogs();
+
+    // 📊 2. साइबर HUD: यूजर की असली लाइव बैटरी ट्रैक करना
+    if (typeof window !== 'undefined' && navigator.getBattery) {
+      navigator.getBattery().then((battery: any) => {
+        setBatteryLevel(`${Math.round(battery.level * 100)}%`);
+        battery.addEventListener('levelchange', () => {
+          setBatteryLevel(`${Math.round(battery.level * 100)}%`);
+        });
+      });
+    }
+
+    // 🌐 3. साइबर HUD: यूजर का लाइव इंटरनेट नेटवर्क स्टेटस
+    setIsOnline(navigator.onLine);
+    const goOnline = () => setIsOnline(true);
+    const goOffline = () => setIsOnline(false);
+
+    window.addEventListener('online', goOnline);
+    window.addEventListener('offline', goOffline);
+
+    return () => {
+      window.removeEventListener('online', goOnline);
+      window.removeEventListener('offline', goOffline);
+    };
   }, []);
 
   const containerVariants = {
@@ -54,27 +79,20 @@ export default function Home() {
   return (
     <main className="relative min-h-screen bg-[#01060a] text-[#00f0ff] font-mono overflow-x-hidden flex flex-col items-center justify-between p-4 md:p-8 select-none">
       
-      {/* 🎬 4K सिनेमैटिक बैकग्राउंड वीडियो लूप (अल्ट्रा-प्रीमियम साइबरपंक पार्टिकल्स) */}
+      {/* 🎬 4K सिनेमैटिक बैकग्राउंड वीडियो */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-full h-full object-cover opacity-25"
-        >
-          {/* एक प्रीमियम, रॉयल्टी-फ्री डार्क एआई मैट्रिक्स/साइबरपंक वीडियो स्ट्रीम */}
+        <video autoPlay loop muted playsInline className="w-full h-full object-cover opacity-25">
           <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-laser-lights-background-23091-large.mp4" type="video/mp4" />
         </video>
       </div>
 
-      {/* 🎞️ 90s विंटेज फिल्म ग्रेन इफ़ेक्ट (मूवी वाइब के लिए) */}
+      {/* 🎞️ 90s विंटेज फिल्म ग्रेन इफ़ेक्ट */}
       <div className="absolute inset-0 pointer-events-none z-10 opacity-[0.04] bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E')]" />
 
       {/* निऑन ग्रिड ओवरले */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#02131e_1px,transparent_1px),linear-gradient(to_bottom,#02131e_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-40 pointer-events-none z-10" />
 
-      {/* 🌅 वॉर्म गोल्डन ऑवर और होलोग्राफिक ब्लर (अमीर लुक) */}
+      {/* 🌅 वॉर्म गोल्डन ऑवर और होलोग्राफिक ब्लर */}
       <div className="absolute top-[-10%] left-[-10%] w-[400px] h-[400px] bg-gradient-to-tr from-[#ffaa00] to-[#7000ff] rounded-full blur-[140px] opacity-20 pointer-events-none z-10" />
       <div className="absolute top-[30%] right-[-5%] w-[350px] h-[350px] bg-gradient-to-br from-[#ffc800] to-[#ff007b] rounded-full blur-[130px] opacity-10 pointer-events-none z-10" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-gradient-to-br from-[#00f0ff] to-[#7000ff] rounded-full blur-[150px] opacity-10 pointer-events-none z-10" />
@@ -91,20 +109,33 @@ export default function Home() {
             <Cpu className="w-4 h-4 text-black font-bold animate-pulse" />
           </div>
           <span className="text-white font-black tracking-widest text-sm group-hover:text-[#00f0ff] transition-colors duration-300">
-            NEUROCORE<span className="text-[#ffaa00]SetName">.TECH</span>
+            NEUROCORE<span className="text-[#ffaa00]">.TECH</span>
           </span>
         </div>
 
-        <nav className="hidden md:flex items-center gap-8 text-xs tracking-widest text-slate-400">
-          {['MAINFRAME', 'AI CORE', 'PROJECTS', 'TERMINAL'].map((item, idx) => (
-            <a key={idx} href="#" className="hover:text-[#00f0ff] transition-colors duration-200 relative group py-1">
-              {item}
-              <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-[#ffaa00] group-hover:w-full transition-all duration-300" />
-            </a>
-          ))}
-        </nav>
+        {/* 📊 लाइव साइबर HUD नोड (बैटरी और नेटवर्क ट्रैकर) */}
+        <div className="flex items-center gap-4 border border-[#02333d] px-4 py-1.5 rounded-xl bg-black/40 backdrop-blur-md text-[11px] font-bold text-slate-400">
+          <div className="flex items-center gap-1.5 hover:text-[#ffaa00] transition-colors">
+            <Battery className="w-3.5 h-3.5 text-[#ffaa00]" />
+            <span>HUD BATT: <span className="text-white">{batteryLevel}</span></span>
+          </div>
+          <div className="w-[1px] h-3 bg-[#02333d]" />
+          <div className="flex items-center gap-1.5">
+            {isOnline ? (
+              <>
+                <Wifi className="w-3.5 h-3.5 text-green-500 animate-pulse" />
+                <span className="text-green-500">SYS_ONLINE</span>
+              </>
+            ) : (
+              <>
+                <WifiOff className="w-3.5 h-3.5 text-red-500" />
+                <span className="text-red-500">SYS_DISCONNECT</span>
+              </>
+            )}
+          </div>
+        </div>
 
-        <button className="flex items-center gap-1.5 border border-[#ffaa00]/40 px-4 py-1.5 rounded-lg bg-black/20 text-xs text-[#ffaa00] hover:bg-[#ffaa00] hover:text-black hover:shadow-[0_0_20px_rgba(255,170,0,0.4)] transition-all duration-300 font-bold">
+        <button className="hidden md:flex items-center gap-1.5 border border-[#ffaa00]/40 px-4 py-1.5 rounded-lg bg-black/20 text-xs text-[#ffaa00] hover:bg-[#ffaa00] hover:text-black hover:shadow-[0_0_20px_rgba(255,170,0,0.4)] transition-all duration-300 font-bold">
           LIVE NODES <Radio className="w-3 h-3 text-red-500 animate-ping" />
         </button>
       </motion.header>
@@ -123,11 +154,16 @@ export default function Home() {
             ADMINISTRATOR: MR. SHIVAM RAJPOOT SYSTEM IS ONLINE
           </motion.div>
 
+          {/* 🚨 MATRIX GLITCH TEXT EFFECT ON HOVER */}
           <motion.h1 
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.8 }}
-            className="text-5xl md:text-9xl font-black tracking-tighter bg-gradient-to-r from-white via-[#00f0ff] to-[#ffaa00] bg-clip-text text-transparent drop-shadow-[0_0_35px_rgba(0,240,255,0.25)] uppercase select-none"
+            whileHover={{ 
+              skewX: [0, -10, 10, -5, 5, 0],
+              filter: ["none", "hue-rotate(90deg)", "hue-rotate(180deg)", "none"]
+            }}
+            className="text-5xl md:text-9xl font-black tracking-tighter bg-gradient-to-r from-white via-[#00f0ff] to-[#ffaa00] bg-clip-text text-transparent drop-shadow-[0_0_35px_rgba(0,240,255,0.25)] uppercase select-none cursor-matrix transition-all duration-100"
           >
             NEUROCORE
           </motion.h1>
@@ -164,12 +200,13 @@ export default function Home() {
           </pre>
         </motion.div>
 
-        {/* प्रीमियम ग्लासमोर्फिज्म कार्ड */}
+        {/* 🚨 MATRIX GLITCH CARD ON HOVER */}
         <motion.div 
           initial={{ y: 40, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.8 }}
-          className="relative w-full max-w-3xl p-6 md:p-8 border border-[#02333d] bg-gradient-to-b from-black/70 to-[#000c14]/95 backdrop-blur-xl rounded-2xl shadow-[inset_0_0_30px_rgba(0,240,255,0.05),0_20px_50px_rgba(0,0,0,0.9)] flex flex-col sm:flex-row gap-6 items-center justify-between text-left group hover:border-[#ffaa00]/40 transition-all duration-500"
+          whileHover={{ x: [0, -4, 4, -2, 2, 0] }}
+          className="relative w-full max-w-3xl p-6 md:p-8 border border-[#02333d] bg-gradient-to-b from-black/70 to-[#000c14]/95 backdrop-blur-xl rounded-2xl shadow-[inset_0_0_30px_rgba(0,240,255,0.05),0_20px_50px_rgba(0,0,0,0.9)] flex flex-col sm:flex-row gap-6 items-center justify-between text-left group hover:border-[#ffaa00]/40 transition-all duration-300"
         >
           <div className="space-y-2">
             <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-[#ffaa00] font-bold">
@@ -187,12 +224,7 @@ export default function Home() {
         </motion.div>
 
         {/* THE MILLION DOLLAR FEATURES NODE GRID */}
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          animate="show"
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl pt-4"
-        >
+        <motion.div variants={containerVariants} initial="hidden" animate="show" className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl pt-4">
           {[
             { title: "Neural Synergy Engine", desc: "Aigocy-inspired glass layers executing autonomous operations in real-time.", icon: Database, tag: "CORE MATRIX" },
             { title: "Blazing Data Nodes", desc: "Zero server latency architecture processing matrix visual components at 0.01ms.", icon: Zap, tag: "LIGHTNING SSR" },
@@ -200,11 +232,7 @@ export default function Home() {
           ].map((feature, idx) => {
             const Icon = feature.icon;
             return (
-              <motion.div 
-                key={idx}
-                variants={itemVariants}
-                className="p-6 border border-[#02333d]/60 bg-gradient-to-br from-black/90 to-[#000c14]/95 rounded-xl text-left shadow-[0_15px_30px_rgba(0,0,0,0.7)] flex flex-col justify-between group hover:border-[#ffaa00]/50 hover:shadow-[0_0_20px_rgba(255,170,0,0.1)] transition-all duration-300"
-              >
+              <motion.div key={idx} variants={itemVariants} className="p-6 border border-[#02333d]/60 bg-gradient-to-br from-black/90 to-[#000c14]/95 rounded-xl text-left shadow-[0_15px_30px_rgba(0,0,0,0.7)] flex flex-col justify-between group hover:border-[#ffaa00]/50 hover:shadow-[0_0_20px_rgba(255,170,0,0.1)] transition-all duration-300">
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <div className="p-2.5 rounded-lg bg-[#00f0ff]/5 border border-[#00f0ff]/20 text-[#00f0ff] group-hover:bg-[#ffaa00] group-hover:text-black transition-all duration-300">
@@ -223,75 +251,38 @@ export default function Home() {
           })}
         </motion.div>
 
-        {/* ⚡ 3. DYNAMIC TECH STACK NODE (3D SPINNING SVG ICONS) */}
-        <motion.div
-          initial={{ y: 40, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="w-full max-w-4xl text-left pt-12 space-y-6"
-        >
+        {/* ⚡ 3. DYNAMIC TECH STACK NODE (3D SPINNING ICONS) */}
+        <motion.div initial={{ y: 40, opacity: 0 }} whileInView={{ y: 0, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="w-full max-w-4xl text-left pt-12 space-y-6">
           <div className="flex flex-col space-y-2 border-l-2 border-[#ffaa00] pl-4">
             <h2 className="text-2xl font-black text-white tracking-tighter uppercase">Mainframe Tech Stack</h2>
-            <p className="text-xs text-slate-400 font-sans">इस हाई-परफॉर्मेंस सिस्टम को पावर देने वाले कोर इंजनों की 3D एनिमेटेड मैट्रिक्स ग्रिड।</p>
+            <p className="text-xs text-slate-400 font-sans">इस हाई-परफॉर्मेंस सिस्टम को power देने वाले कोर इंजनों की 3D एनिमेटेड मैट्रिक्स ग्रिड।</p>
           </div>
-
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full [perspective:1000px]">
             {[
-              { 
-                name: "Next.js 15", 
-                tech: "Framework Engine", 
-                svg: <svg className="w-5 h-5" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M127.3 127.3L67.8 52.2H52.2V127.8H66.1V69.7L118.6 135.9C121.7 133.3 124.6 130.4 127.3 127.3Z" fill="currentColor"/><path d="M116.1 52.2V107.8L129.4 124.7V52.2H116.1Z" fill="currentColor"/><circle cx="90" cy="90" r="85" stroke="currentColor" strokeWidth="10"/></svg>
-              },
-              { 
-                name: "React 19", 
-                tech: "UI Architecture", 
-                svg: <svg className="w-5 h-5" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="50" rx="10" ry="25" stroke="currentColor" strokeWidth="5" transform="rotate(30 50 50)"/><ellipse cx="50" cy="50" rx="10" ry="25" stroke="currentColor" strokeWidth="5" transform="rotate(90 50 50)"/><ellipse cx="50" cy="50" rx="10" ry="25" stroke="currentColor" strokeWidth="5" transform="rotate(150 50 50)"/><circle cx="50" cy="50" r="5" fill="currentColor"/></svg>
-              },
-              { 
-                name: "Tailwind CSS", 
-                tech: "Neon Visual Styling", 
-                svg: <svg className="w-5 h-5" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M25 50C25 35 40 30 50 40C60 50 65 55 75 50C85 45 85 60 75 65C65 70 60 65 50 55C40 45 25 40 25 50Z" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round"/></svg>
-              },
-              { 
-                name: "Framer Motion", 
-                tech: "3D Animation Matrix", 
-                svg: <svg className="w-5 h-5" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 20L50 50L80 20H20Z" fill="currentColor"/><path d="M20 50L50 80L80 50H20Z" fill="currentColor"/><path d="M20 80H80L50 50L20 80Z" fill="currentColor"/></svg>
-              }
-            ].map((stack, idx) => {
-              return (
-                <div key={idx} className="p-4 border border-[#02333d]/40 bg-black/40 rounded-xl flex items-center gap-3 group cursor-pointer hover:border-[#ffaa00]/50 hover:bg-black/80 transition-all duration-300">
-                  <motion.div 
-                    whileHover={{ rotateY: 360, scale: 1.15 }}
-                    transition={{ duration: 0.8, ease: "easeInOut" }}
-                    style={{ transformStyle: "preserve-3d" }}
-                    className="p-2.5 rounded-lg bg-[#ffaa00]/10 border border-[#ffaa00]/30 text-[#ffaa00] group-hover:border-[#00f0ff]/50 group-hover:bg-[#00f0ff]/10 shrink-0 flex items-center justify-center"
-                  >
-                    {stack.svg}
-                  </motion.div>
-                  <div>
-                    <h5 className="text-white text-xs font-bold tracking-tight group-hover:text-[#ffaa00] transition-colors">{stack.name}</h5>
-                    <p className="text-[10px] text-slate-500 font-sans mt-0.5">{stack.tech}</p>
-                  </div>
+              { name: "Next.js 15", tech: "Framework Engine", svg: <svg className="w-5 h-5" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M127.3 127.3L67.8 52.2H52.2V127.8H66.1V69.7L118.6 135.9C121.7 133.3 124.6 130.4 127.3 127.3Z" fill="currentColor"/><path d="M116.1 52.2V107.8L129.4 124.7V52.2H116.1Z" fill="currentColor"/><circle cx="90" cy="90" r="85" stroke="currentColor" strokeWidth="10"/></svg> },
+              { name: "React 19", tech: "UI Architecture", svg: <svg className="w-5 h-5" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="50" rx="10" ry="25" stroke="currentColor" strokeWidth="5" transform="rotate(30 50 50)"/><ellipse cx="50" cy="50" rx="10" ry="25" stroke="currentColor" strokeWidth="5" transform="rotate(90 50 50)"/><ellipse cx="50" cy="50" rx="10" ry="25" stroke="currentColor" strokeWidth="5" transform="rotate(150 50 50)"/><circle cx="50" cy="50" r="5" fill="currentColor"/></svg> },
+              { name: "Tailwind CSS", tech: "Neon Visual Styling", svg: <svg className="w-5 h-5" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M25 50C25 35 40 30 50 40C60 50 65 55 75 50C85 45 85 60 75 65C65 70 60 65 50 55C40 45 25 40 25 50Z" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round"/></svg> },
+              { name: "Framer Motion", tech: "3D Animation Matrix", svg: <svg className="w-5 h-5" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 20L50 50L80 20H20Z" fill="currentColor"/><path d="M20 50L50 80L80 50H20Z" fill="currentColor"/><path d="M20 80H80L50 50L20 80Z" fill="currentColor"/></svg> }
+            ].map((stack, idx) => (
+              <div key={idx} className="p-4 border border-[#02333d]/40 bg-black/40 rounded-xl flex items-center gap-3 group cursor-pointer hover:border-[#ffaa00]/50 hover:bg-black/80 transition-all duration-300">
+                <motion.div whileHover={{ rotateY: 360, scale: 1.15 }} transition={{ duration: 0.8, ease: "easeInOut" }} style={{ transformStyle: "preserve-3d" }} className="p-2.5 rounded-lg bg-[#ffaa00]/10 border border-[#ffaa00]/30 text-[#ffaa00] group-hover:border-[#00f0ff]/50 group-hover:bg-[#00f0ff]/10 shrink-0 flex items-center justify-center">
+                  {stack.svg}
+                </motion.div>
+                <div>
+                  <h5 className="text-white text-xs font-bold tracking-tight group-hover:text-[#ffaa00] transition-colors">{stack.name}</h5>
+                  <p className="text-[10px] text-slate-500 font-sans mt-0.5">{stack.tech}</p>
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
         </motion.div>
 
         {/* THE ACTIVE MAINFRAME PROJECTS SHOP */}
-        <motion.div
-          initial={{ y: 40, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="w-full max-w-4xl text-left pt-12 space-y-6"
-        >
+        <motion.div initial={{ y: 40, opacity: 0 }} whileInView={{ y: 0, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="w-full max-w-4xl text-left pt-12 space-y-6">
           <div className="flex flex-col space-y-2 border-l-2 border-[#00f0ff] pl-4">
             <h2 className="text-2xl font-black text-white tracking-tighter uppercase">Active Deep-Tech Projects</h2>
             <p className="text-xs text-slate-400 font-sans">लाइव सर्वर कर्नल पर चल रहे हमारे सबसे एडवांस हाई-एंड सिस्टम्स का रियल-टाइम प्रोग्रेस डेटा।</p>
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
             {[
               { name: "Project CyberShield V2", progress: "94%", desc: "Autonomous firewall intercepting rogue data packets globally.", icon: Server, color: "from-[#00f0ff] to-[#ffaa00]" },
@@ -309,13 +300,7 @@ export default function Home() {
                   </div>
                   <p className="text-xs text-slate-400 font-sans leading-relaxed">{proj.desc}</p>
                   <div className="w-full h-1.5 bg-black rounded-full overflow-hidden border border-[#02333d]">
-                    <motion.div 
-                      initial={{ width: 0 }}
-                      whileInView={{ width: proj.progress }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 1.5, ease: "easeInOut" }}
-                      className={`h-full bg-gradient-to-r ${proj.color} rounded-full`}
-                    />
+                    <motion.div initial={{ width: 0 }} whileInView={{ width: proj.progress }} viewport={{ once: true }} transition={{ duration: 1.5, ease: "easeInOut" }} className={`h-full bg-gradient-to-r ${proj.color} rounded-full`} />
                   </div>
                 </div>
               );
@@ -324,52 +309,29 @@ export default function Home() {
         </motion.div>
 
         {/* THE SOVEREIGN QUERY HUB */}
-        <motion.div 
-          initial={{ y: 40, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="w-full max-w-3xl p-6 md:p-8 border border-[#02333d]/60 bg-gradient-to-b from-black/50 to-[#000b12]/95 backdrop-blur-xl rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] text-left mt-8 space-y-6 relative group"
-        >
+        <motion.div initial={{ y: 40, opacity: 0 }} whileInView={{ y: 0, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="w-full max-w-3xl p-6 md:p-8 border border-[#02333d]/60 bg-gradient-to-b from-black/50 to-[#000b12]/95 backdrop-blur-xl rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] text-left mt-8 space-y-6 relative group">
           <div className="absolute top-0 right-8 transform -translate-y-1/2 bg-[#01060a] border border-[#02333d] px-3 py-1 rounded-md text-[9px] text-[#ffaa00] font-bold tracking-widest uppercase">
             SECURE LINK INTERFACE
           </div>
-
           <div className="space-y-1">
             <h3 className="text-lg md:text-xl font-black text-white tracking-tight flex items-center gap-2">
               <HelpCircle className="w-5 h-5 text-[#ffaa00]" /> Initialize Communication
             </h3>
-            <p className="text-xs text-slate-400 font-sans">
-              हमारे न्यूरल नेटवर्क कोर से जुड़ने के लिए अपना कमांड इनपुट सबमिट करें। 100% एन्क्रिप्टेड कर्नल पाथ।
-            </p>
+            <p className="text-xs text-slate-400 font-sans">हमारे न्यूरल नेटवर्क कोर से जुड़ने के लिए अपना कमांड इनपुट सबमिट करें। 100% एन्क्रिप्टेड कर्नल पाथ।</p>
           </div>
-
           <form className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 font-sans text-sm" onSubmit={(e) => e.preventDefault()}>
             <div className="flex flex-col space-y-2">
               <label className="text-[10px] font-mono tracking-widest text-[#00f0ff]/70 uppercase font-bold">IDENTIFICATION</label>
-              <input 
-                type="text" 
-                placeholder="Enter your name..." 
-                className="w-full bg-black/60 border border-[#02333d] rounded-xl p-3 text-white placeholder-slate-600 outline-none focus:border-[#ffaa00] focus:shadow-[0_0_15px_rgba(255,170,0,0.2)] transition-all duration-300 font-mono text-xs"
-              />
+              <input type="text" placeholder="Enter your name..." className="w-full bg-black/60 border border-[#02333d] rounded-xl p-3 text-white placeholder-slate-600 outline-none focus:border-[#ffaa00] focus:shadow-[0_0_15px_rgba(255,170,0,0.2)] transition-all duration-300 font-mono text-xs" />
             </div>
             <div className="flex flex-col space-y-2">
               <label className="text-[10px] font-mono tracking-widest text-[#00f0ff]/70 uppercase font-bold">NEURAL ADDRESS</label>
-              <input 
-                type="email" 
-                placeholder="Enter your email..." 
-                className="w-full bg-black/60 border border-[#02333d] rounded-xl p-3 text-white placeholder-slate-600 outline-none focus:border-[#ffaa00] focus:shadow-[0_0_15px_rgba(255,170,0,0.2)] transition-all duration-300 font-mono text-xs"
-              />
+              <input type="email" placeholder="Enter your email..." className="w-full bg-black/60 border border-[#02333d] rounded-xl p-3 text-white placeholder-slate-600 outline-none focus:border-[#ffaa00] focus:shadow-[0_0_15px_rgba(255,170,0,0.2)] transition-all duration-300 font-mono text-xs" />
             </div>
             <div className="flex flex-col space-y-2 md:col-span-2">
               <label className="text-[10px] font-mono tracking-widest text-[#00f0ff]/70 uppercase font-bold">COMMAND DATA/MESSAGE</label>
-              <textarea 
-                rows={3}
-                placeholder="Type your strategic query here..." 
-                className="w-full bg-black/60 border border-[#02333d] rounded-xl p-3 text-white placeholder-slate-600 outline-none focus:border-[#ffaa00] focus:shadow-[0_0_15px_rgba(255,170,0,0.2)] transition-all duration-300 font-mono text-xs resize-none"
-              />
+              <textarea rows={3} placeholder="Type your strategic query here..." className="w-full bg-black/60 border border-[#02333d] rounded-xl p-3 text-white placeholder-slate-600 outline-none focus:border-[#ffaa00] focus:shadow-[0_0_15px_rgba(255,170,0,0.2)] transition-all duration-300 font-mono text-xs resize-none" />
             </div>
-
             <button className="md:col-span-2 w-full mt-2 py-3.5 bg-black/40 border border-[#ffaa00]/40 rounded-xl font-mono text-xs uppercase tracking-widest font-black text-[#ffaa00] hover:bg-[#ffaa00] hover:text-black hover:shadow-[0_0_25px_rgba(255,170,0,0.4)] transition-all duration-300 active:scale-[0.99] flex items-center justify-center gap-2">
               TRANSMIT SECURE DATA <Send className="w-3.5 h-3.5 stroke-[2.5]" />
             </button>
@@ -377,12 +339,7 @@ export default function Home() {
         </motion.div>
 
         {/* लाइव सिस्टम मेट्रिक्स */}
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6, duration: 0.8 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-3xl pt-8 border-t border-[#02333d]/50"
-        >
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6, duration: 0.8 }} className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-3xl pt-8 border-t border-[#02333d]/50">
           {[
             { label: 'SEO RATING', val: '100/100', icon: Shield },
             { label: 'CORE SPEED', val: '0.01ms', icon: Activity },
