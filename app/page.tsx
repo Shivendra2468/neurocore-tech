@@ -1,16 +1,50 @@
 'use client'; 
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Terminal, Shield, Activity, Cpu, ArrowUpRight, Radio, Database, Zap, Layers, Send, HelpCircle, Box, Server, Eye } from 'lucide-react';
+import { Terminal, Shield, Activity, Cpu, ArrowUpRight, Radio, Database, Zap, Layers, Send, HelpCircle, Box, Server } from 'lucide-react';
 
 export default function Home() {
+  const [logText, setLogText] = useState('');
+  
+  // 🔮 लाइव टर्मिनल लॉग्स जो स्क्रीन पर अपने आप टाइप होंगे
+  const logs = [
+    'INIT CORE SECURE PROTOCOL...',
+    'CONNECTING TO SHIVAM RAJPOOT MAIN PASSWAY...',
+    'LOADING KERNEL LAYERS [SUCCESS]',
+    'SEO MASTERING MAP INITIALIZED...',
+    'STATUS: 100% SECURE & ACTIVE.'
+  ];
+
+  useEffect(() => {
+    let currentLogIndex = 0;
+    let currentCharIndex = 0;
+    let currentDisplay = '';
+
+    const typeLogs = () => {
+      if (currentLogIndex < logs.length) {
+        if (currentCharIndex < logs[currentLogIndex].length) {
+          currentDisplay += logs[currentLogIndex][currentCharIndex];
+          setLogText(currentDisplay + '_');
+          currentCharIndex++;
+          setTimeout(typeLogs, 30);
+        } else {
+          currentDisplay += '\n';
+          currentLogIndex++;
+          currentCharIndex = 0;
+          setTimeout(typeLogs, 500);
+        }
+      } else {
+        setLogText(currentDisplay + ' ✓ TERMINAL READY.');
+      }
+    };
+
+    typeLogs();
+  }, []);
+
   const containerVariants = {
     hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { staggerChildren: 0.15 }
-    }
+    show: { opacity: 1, transition: { staggerChildren: 0.15 } }
   };
 
   const itemVariants = {
@@ -21,10 +55,10 @@ export default function Home() {
   return (
     <main className="relative min-h-screen bg-[#01060a] text-[#00f0ff] font-mono overflow-x-hidden flex flex-col items-center justify-between p-4 md:p-8 select-none">
       
-      {/* निऑन ग्लो ग्रिड बैकग्राउंड */}
+      {/* निऑन ग्रिड बैकग्राउंड */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#02131e_1px,transparent_1px),linear-gradient(to_bottom,#02131e_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-60 pointer-events-none" />
 
-      {/* होलोग्राफिक ओरियन ब्लर */}
+      {/* होलोग्राफिक ग्लो */}
       <div className="absolute top-[-10%] left-[-10%] w-[400px] h-[400px] bg-gradient-to-tr from-[#00f0ff] to-[#7000ff] rounded-full blur-[130px] opacity-15 pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-gradient-to-br from-[#ff007b] to-[#00f0ff] rounded-full blur-[150px] opacity-10 pointer-events-none" />
 
@@ -32,7 +66,7 @@ export default function Home() {
       <motion.header 
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, ease: 'easeOut' }}
+        transition={{ duration: 0.8 }}
         className="relative z-50 w-full max-w-6xl flex items-center justify-between p-4 border border-[#02333d]/60 bg-black/40 backdrop-blur-xl rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
       >
         <div className="flex items-center gap-2 group cursor-pointer">
@@ -69,7 +103,7 @@ export default function Home() {
             className="border border-[#00f0ff]/30 px-4 py-1.5 rounded-full bg-black/40 backdrop-blur-md text-[10px] md:text-xs tracking-[0.3em] uppercase text-[#00f0ff] shadow-[0_0_15px_rgba(0,240,255,0.15)] flex items-center gap-2"
           >
             <span className="w-2 h-2 rounded-full bg-[#00f0ff] animate-ping" />
-            SYSTEM STATUS: SECURE DEPLOYMENT PROTOCOL ACTIVE
+            ADMINISTRATOR: MR. SHIVAM RAJPOOT SYSTEM IS ONLINE
           </motion.div>
 
           <motion.h1 
@@ -87,15 +121,37 @@ export default function Home() {
             transition={{ delay: 0.3, duration: 0.8 }}
             className="max-w-2xl text-xs md:text-base text-slate-400 tracking-wide font-sans leading-relaxed px-4"
           >
-            The ultimate digital intelligence mainframe. Elite visual aesthetics engineered exclusively for maximum performance, multi-million dollar valuation style, and flawless Google Search visibility.
+            The ultimate digital intelligence mainframe owned and directed by Mr. Shivam Rajpoot. Engineered exclusively for elite performance, multi-million dollar valuation aesthetics, and global Google Search domination.
           </motion.p>
         </div>
+
+        {/* 💻 ⚡ 1. SYSTEM CORE LOGS (लाइव टर्मिनल नोड) */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.4, duration: 0.6 }}
+          className="w-full max-w-3xl p-4 border border-[#02333d] bg-black/80 rounded-xl shadow-[0_0_25px_rgba(0,0,0,0.8)] text-left"
+        >
+          <div className="flex items-center justify-between border-b border-[#02333d]/60 pb-2 mb-3">
+            <div className="flex items-center gap-2 text-[10px] tracking-widest font-bold text-[#7000ff]">
+              <Terminal className="w-3.5 h-3.5 text-[#00f0ff]" /> CORE MATRIX LIVE STATUS LOGGER
+            </div>
+            <div className="flex gap-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-red-500/40" />
+              <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/40" />
+              <span className="w-2.5 h-2.5 rounded-full bg-green-500/80 animate-pulse" />
+            </div>
+          </div>
+          <pre className="text-xs md:text-sm text-[#00f0ff] font-mono leading-relaxed whitespace-pre-line min-h-[100px] font-bold">
+            {logText}
+          </pre>
+        </motion.div>
 
         {/* प्रीमियम ग्लासमोर्फिज्म कार्ड */}
         <motion.div 
           initial={{ y: 40, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.4, duration: 0.8 }}
+          transition={{ delay: 0.5, duration: 0.8 }}
           className="relative w-full max-w-3xl p-6 md:p-8 border border-[#02333d] bg-gradient-to-b from-black/60 to-[#000c14]/90 backdrop-blur-xl rounded-2xl shadow-[inset_0_0_30px_rgba(0,240,255,0.05),0_20px_50px_rgba(0,0,0,0.8)] flex flex-col sm:flex-row gap-6 items-center justify-between text-left group hover:border-[#00f0ff]/40 transition-all duration-500"
         >
           <div className="space-y-2">
@@ -121,24 +177,9 @@ export default function Home() {
           className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl pt-4"
         >
           {[
-            {
-              title: "Neural Synergy Engine",
-              desc: "Aigocy-inspired glass layers executing autonomous operations in real-time.",
-              icon: Database,
-              tag: "CORE MATRIX"
-            },
-            {
-              title: "Blazing Data Nodes",
-              desc: "Zero server latency architecture processing matrix visual components at 0.01ms.",
-              icon: Zap,
-              tag: "LIGHTNING SSR"
-            },
-            {
-              title: "Cryptographic Shield",
-              desc: "Military-grade structural encapsulation guarding the mainframe from layout errors.",
-              icon: Layers,
-              tag: "EXTREME SECURITY"
-            }
+            { title: "Neural Synergy Engine", desc: "Aigocy-inspired glass layers executing autonomous operations in real-time.", icon: Database, tag: "CORE MATRIX" },
+            { title: "Blazing Data Nodes", desc: "Zero server latency architecture processing matrix visual components at 0.01ms.", icon: Zap, tag: "LIGHTNING SSR" },
+            { title: "Cryptographic Shield", desc: "Military-grade structural encapsulation guarding the mainframe from layout errors.", icon: Layers, tag: "EXTREME SECURITY" }
           ].map((feature, idx) => {
             const Icon = feature.icon;
             return (
@@ -165,7 +206,7 @@ export default function Home() {
           })}
         </motion.div>
 
-        {/* ⚡ 5. THE ACTIVE MAINFRAME PROJECTS SHOP (नया वीआईपी ३डी एनिमेटेड सेक्शन) */}
+        {/* THE ACTIVE MAINFRAME PROJECTS SHOP */}
         <motion.div
           initial={{ y: 40, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
@@ -194,8 +235,6 @@ export default function Home() {
                     <span className="text-xs font-mono text-[#00f0ff] font-bold bg-[#00f0ff]/5 px-2 py-0.5 rounded border border-[#00f0ff]/20">{proj.progress}</span>
                   </div>
                   <p className="text-xs text-slate-400 font-sans leading-relaxed">{proj.desc}</p>
-                  
-                  {/* एनिमेटेड प्रोग्रेस बार */}
                   <div className="w-full h-1.5 bg-black rounded-full overflow-hidden border border-[#02333d]">
                     <motion.div 
                       initial={{ width: 0 }}
